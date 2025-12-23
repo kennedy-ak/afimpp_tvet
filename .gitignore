@@ -1,0 +1,64 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Environment variables and sensitive files
+.env
+.env.local
+.env.production
+.env.staging
+
+# Database files
+*.sqlite3
+*.db
+
+# Log files
+*.log
+django.log
+
+# Media uploads (for development)
+/media/
+
+# Static files (for development)
+/staticfiles/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Python cache
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# PyCharm
+.idea/

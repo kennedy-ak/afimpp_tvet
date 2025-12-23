@@ -1,0 +1,548 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ course.title }} - AfIMMP TVTC{% endblock %}
+
+{% block content %}
+<!-- Page Header with Course Image Background -->
+<section class="page-header text-white py-5 position-relative" style="min-height: 400px; background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);">
+    {% if course.image %}
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('{{ course.image.url }}'); background-size: cover; background-position: center; opacity: 0.3;"></div>
+    {% endif %}
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(30, 58, 95, 0.8) 0%, rgba(44, 82, 130, 0.8) 100%);"></div>
+
+    <div class="container position-relative" style="z-index: 2;">
+        <div class="row" style="min-height: 300px; align-items: flex-end;">
+            <div class="col-lg-8">
+                <h1 class="display-4 fw-bold mb-3" style="border-left: 5px solid #f59e0b; padding-left: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
+                    {{ course.title|upper }}
+                </h1>
+                {% if course.short_title %}
+                <p class="lead mb-3" style="color: #fbbf24;">{{ course.short_title }}</p>
+                {% endif %}
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb" style="background: transparent;">
+                        <li class="breadcrumb-item"><a href="{% url 'home' %}" style="color: #34d399;">Home</a></li>
+                        <li class="breadcrumb-item text-white">/ {{ course.title|truncatechars:30|upper }}</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="col-lg-4">
+                <!-- Quick Info Card -->
+                <div class="card shadow-lg border-0" style="background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);">
+                    <div class="card-body p-4 text-center">
+                        <h3 class="text-dark fw-bold mb-3">Course Details</h3>
+                        <div class="row g-2 mb-3">
+                            <div class="col-6">
+                                <i class="fas fa-signal fa-2x mb-2" style="color: #16a34a;"></i>
+                                <p class="mb-0 small text-muted">Level</p>
+                                <p class="fw-bold text-dark">{{ course.get_level_display }}</p>
+                            </div>
+                            <div class="col-6">
+                                <i class="fas fa-clock fa-2x mb-2" style="color: #16a34a;"></i>
+                                <p class="mb-0 small text-muted">Duration</p>
+                                <p class="fw-bold text-dark">{{ course.duration_months }} Months</p>
+                            </div>
+                        </div>
+                        {% if course.price and course.price > 0 %}
+                        <div class="mb-3">
+                            <h4 class="text-primary fw-bold">GHS {{ course.price }}</h4>
+                            <small class="text-muted">Course Fee</small>
+                        </div>
+                        {% endif %}
+                        <div class="d-grid">
+                            {% if user.is_authenticated %}
+                                {% if is_enrolled %}
+                                    <a href="{% url 'dashboard' %}" class="btn btn-lg" style="background-color: #16a34a; color: white;">
+                                        <i class="fas fa-tachometer-alt me-2"></i>Go to Dashboard
+                                    </a>
+                                {% else %}
+                                    <a href="{% url 'enroll_course' course.slug %}" class="btn btn-lg" style="background-color: #16a34a; color: white;">
+                                        <i class="fas fa-hand-point-right me-2"></i>Apply Here
+                                    </a>
+                                {% endif %}
+                            {% else %}
+                                <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-lg" style="background-color: #16a34a; color: white;">
+                                    <i class="fas fa-hand-point-right me-2"></i>Apply Here
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main Content -->
+<section class="course-detail py-5">
+    <div class="container">
+        <!-- Overview Section -->
+        {% if course.overview %}
+        <div class="row mb-5">
+            <div class="col-lg-8 offset-lg-2">
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold mb-4" style="color: #1e3a5f;">Course Overview</h2>
+                    <p class="lead">{{ course.overview }}</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Key Features Section -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <h2 class="text-center fw-bold mb-5" style="color: #1e3a5f;">Why Choose This Course?</h2>
+                <div class="row g-4">
+                    <div class="col-md-4 text-center">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body p-4">
+                                <i class="fas fa-graduation-cap fa-3x mb-3" style="color: #16a34a;"></i>
+                                <h5 class="fw-bold">Professional Certificate</h5>
+                                <p class="text-muted">Industry-recognized qualification upon completion</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body p-4">
+                                <i class="fas fa-users fa-3x mb-3" style="color: #16a34a;"></i>
+                                <h5 class="fw-bold">Expert Instructors</h5>
+                                <p class="text-muted">Learn from experienced professionals in the field</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body p-4">
+                                <i class="fas fa-briefcase fa-3x mb-3" style="color: #16a34a;"></i>
+                                <h5 class="fw-bold">Career Advancement</h5>
+                                <p class="text-muted">Boost your career prospects in mining and quarrying</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Course Description and Curriculum -->
+        <div class="row mb-5">
+            <div class="col-lg-8">
+                <div class="course-description-content">
+                    <h3 class="fw-bold mb-4" style="color: #1e3a5f;">Course Description</h3>
+                    {{ course.description|linebreaks }}
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <!-- Course Info Sidebar -->
+                <div class="card border-0 shadow-sm" style="background-color: #f9fafb;">
+                    <div class="card-body p-4">
+                        <h4 class="fw-bold mb-4 text-center" style="color: #1e3a5f;">Quick Information</h4>
+                        <div class="mb-3">
+                            <i class="fas fa-signal me-2" style="color: #16a34a;"></i>
+                            <strong>Level:</strong> {{ course.get_level_display }}
+                        </div>
+                        <div class="mb-3">
+                            <i class="fas fa-clock me-2" style="color: #16a34a;"></i>
+                            <strong>Duration:</strong> {{ course.duration_months }} Months
+                        </div>
+                        <div class="mb-3">
+                            <i class="fas fa-laptop me-2" style="color: #16a34a;"></i>
+                            <strong>Learning Mode:</strong><br>
+                            <small class="text-muted">{{ course.learning_mode }}</small>
+                        </div>
+                        {% if course.price and course.price > 0 %}
+                        <div class="mb-3">
+                            <i class="fas fa-dollar-sign me-2" style="color: #16a34a;"></i>
+                            <strong>Course Fee:</strong> GHS {{ course.price }}
+                        </div>
+                        {% endif %}
+                        <div class="mb-3">
+                            <i class="fas fa-calendar me-2" style="color: #16a34a;"></i>
+                            <strong>Start Date:</strong><br>
+                            <small class="text-muted">Rolling admissions</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Course Modules/Curriculum -->
+        {% if course.modules.all %}
+        <div class="row mb-5">
+            <div class="col-12">
+                <h2 class="text-center fw-bold mb-5" style="color: #1e3a5f;">Course Curriculum</h2>
+                <div class="accordion" id="curriculumAccordion">
+                    {% for module in course.modules.all %}
+                    <div class="accordion-item border-0 shadow-sm mb-3">
+                        <h2 class="accordion-header" id="heading{{ module.id }}">
+                            <button class="accordion-button {% if not forloop.first %}collapsed{% endif %} fw-bold" 
+                                    type="button" data-bs-toggle="collapse" 
+                                    data-bs-target="#collapse{{ module.id }}" 
+                                    aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}"
+                                    aria-controls="collapse{{ module.id }}"
+                                    style="background-color: #f0f9ff; color: #1e3a5f;">
+                                <i class="fas fa-book me-3" style="color: #16a34a;"></i>
+                                Module {{ module.order|default:forloop.counter }}: {{ module.title }}
+                            </button>
+                        </h2>
+                        <div id="collapse{{ module.id }}" 
+                             class="accordion-collapse collapse {% if forloop.first %}show{% endif %}"
+                             aria-labelledby="heading{{ module.id }}" 
+                             data-bs-parent="#curriculumAccordion">
+                            <div class="accordion-body">
+                                {{ module.description|linebreaks }}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Requirements Section -->
+        {% if course.requirements %}
+        <div class="row mb-5">
+            <div class="col-lg-8 offset-lg-2">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <h3 class="fw-bold mb-4 text-center" style="color: #1e3a5f;">
+                            <i class="fas fa-clipboard-check me-2" style="color: #16a34a;"></i>
+                            Admission Requirements
+                        </h3>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ul class="list-unstyled">
+                                    {% for requirement in course.requirements.splitlines|slice:":3" %}
+                                    {% if requirement %}
+                                    <li class="mb-3">
+                                        <i class="fas fa-star me-3" style="color: #16a34a;"></i>
+                                        <span>{{ requirement }}</span>
+                                    </li>
+                                    {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="list-unstyled">
+                                    {% for requirement in course.requirements.splitlines|slice:"3:" %}
+                                    {% if requirement %}
+                                    <li class="mb-3">
+                                        <i class="fas fa-star me-3" style="color: #16a34a;"></i>
+                                        <span>{{ requirement }}</span>
+                                    </li>
+                                    {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Application Process -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <h2 class="text-center fw-bold mb-5" style="color: #1e3a5f;">How to Apply</h2>
+                <div class="row g-4">
+                    <div class="col-md-3 text-center">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body p-4">
+                                <div class="mb-3">
+                                    <span class="badge rounded-circle" style="background-color: #16a34a; color: white; width: 50px; height: 50px; line-height: 35px; font-size: 1.2rem;">1</span>
+                                </div>
+                                <h5 class="fw-bold">Create Account</h5>
+                                <p class="text-muted">Register or log in to your student account</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body p-4">
+                                <div class="mb-3">
+                                    <span class="badge rounded-circle" style="background-color: #16a34a; color: white; width: 50px; height: 50px; line-height: 35px; font-size: 1.2rem;">2</span>
+                                </div>
+                                <h5 class="fw-bold">Apply for Course</h5>
+                                <p class="text-muted">Submit your course application online</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body p-4">
+                                <div class="mb-3">
+                                    <span class="badge rounded-circle" style="background-color: #16a34a; color: white; width: 50px; height: 50px; line-height: 35px; font-size: 1.2rem;">3</span>
+                                </div>
+                                <h5 class="fw-bold">Complete Registration</h5>
+                                <p class="text-muted">Fill out the comprehensive registration form</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body p-4">
+                                <div class="mb-3">
+                                    <span class="badge rounded-circle" style="background-color: #16a34a; color: white; width: 50px; height: 50px; line-height: 35px; font-size: 1.2rem;">4</span>
+                                </div>
+                                <h5 class="fw-bold">Make Payment</h5>
+                                <p class="text-muted">Complete payment to secure your spot</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="card border-0 shadow-lg" style="background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);">
+                    <div class="card-body p-5 text-center text-white">
+                        <h2 class="fw-bold mb-3">Ready to Start Your Learning Journey?</h2>
+                        <p class="lead mb-4">Join hundreds of students who have advanced their careers with our courses</p>
+                        {% if user.is_authenticated %}
+                            {% if is_enrolled %}
+                                <a href="{% url 'dashboard' %}" class="btn btn-light btn-lg px-5">
+                                    <i class="fas fa-tachometer-alt me-2"></i>Go to Dashboard
+                                </a>
+                            {% else %}
+                                <a href="{% url 'enroll_course' course.slug %}" class="btn btn-light btn-lg px-5">
+                                    <i class="fas fa-rocket me-2"></i>Apply Now
+                                </a>
+                            {% endif %}
+                        {% else %}
+                            <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-light btn-lg px-5">
+                                <i class="fas fa-rocket me-2"></i>Apply Now
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="row mb-5">
+            <div class="col-lg-8 offset-lg-2">
+                <div class="card border-0 shadow-sm" style="background-color: #f0f9ff;">
+                    <div class="card-body p-4 text-center">
+                        <h4 class="fw-bold mb-4" style="color: #1e3a5f;">Need More Information?</h4>
+                        <p class="text-muted mb-4">Our admissions team is here to help you with any questions about this course</p>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <i class="fas fa-phone fa-2x mb-2" style="color: #16a34a;"></i>
+                                <p class="mb-0 fw-bold">Call Us</p>
+                                <small class="text-muted">0557782728</small>
+                            </div>
+                            <div class="col-md-4">
+                                <i class="fas fa-envelope fa-2x mb-2" style="color: #16a34a;"></i>
+                                <p class="mb-0 fw-bold">Email Us</p>
+                                <small class="text-muted">info@afimpp.edu.gh</small>
+                            </div>
+                            <div class="col-md-4">
+                                <i class="fas fa-map-marker-alt fa-2x mb-2" style="color: #16a34a;"></i>
+                                <p class="mb-0 fw-bold">Visit Us</p>
+                                <small class="text-muted">Accra, Ghana</small>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <a href="{% url 'contact' %}" class="btn btn-outline-primary">
+                                <i class="fas fa-comment me-2"></i>Contact Us
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Courses -->
+        {% if related_courses %}
+        <div class="row mb-5">
+            <div class="col-12">
+                <h2 class="text-center fw-bold mb-5" style="color: #1e3a5f;">Related Courses</h2>
+                <div class="row g-4">
+                    {% for related_course in related_courses %}
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card h-100 border-0 shadow-sm">
+                            {% if related_course.image %}
+                            <img src="{{ related_course.image.url }}" class="card-img-top" alt="{{ related_course.title }}" style="height: 200px; object-fit: cover;">
+                            {% endif %}
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title fw-bold">{{ related_course.title|truncatechars:50 }}</h5>
+                                <p class="card-text text-muted flex-grow-1">{{ related_course.description|truncatechars:100 }}</p>
+                                <div class="mt-auto">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <span class="badge bg-primary">{{ related_course.get_level_display }}</span>
+                                        <small class="text-muted">{{ related_course.duration_months }} months</small>
+                                    </div>
+                                    <a href="{% url 'course_detail' related_course.slug %}" class="btn btn-outline-primary w-100">
+                                        View Details
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Social Share -->
+        <div class="row">
+            <div class="col-12 text-center">
+                <h5 class="fw-bold mb-3">Share This Course</h5>
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="#" class="btn btn-outline-primary btn-sm" onclick="shareOnFacebook()">
+                        <i class="fab fa-facebook-f me-2"></i>Facebook
+                    </a>
+                    <a href="#" class="btn btn-outline-info btn-sm" onclick="shareOnTwitter()">
+                        <i class="fab fa-twitter me-2"></i>Twitter
+                    </a>
+                    <a href="#" class="btn btn-outline-success btn-sm" onclick="shareOnWhatsApp()">
+                        <i class="fab fa-whatsapp me-2"></i>WhatsApp
+                    </a>
+                    <a href="#" class="btn btn-outline-secondary btn-sm" onclick="copyLink()">
+                        <i class="fas fa-link me-2"></i>Copy Link
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% block extra_css %}
+<style>
+    .course-description-content {
+        font-size: 1.05rem;
+        line-height: 1.8;
+    }
+
+    .course-description-content h2,
+    .course-description-content h3,
+    .course-description-content h4 {
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        font-weight: 700;
+    }
+
+    .course-description-content ul {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .course-description-content ul li {
+        padding-left: 1.5rem;
+        position: relative;
+        margin-bottom: 0.5rem;
+    }
+
+    .course-description-content ul li:before {
+        content: "★";
+        position: absolute;
+        left: 0;
+        color: #16a34a;
+        font-weight: bold;
+    }
+
+    .accordion-button:not(.collapsed) {
+        background-color: #e0f2fe !important;
+        color: #1e3a5f !important;
+        box-shadow: inset 0 -1px 0 rgba(0,0,0,.125);
+    }
+
+    .accordion-button:focus {
+        box-shadow: 0 0 0 0.25rem rgba(22, 163, 74, 0.25);
+        border-color: #16a34a;
+    }
+
+    .page-header {
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .card:hover {
+        transform: translateY(-2px);
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .badge {
+        font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+        .page-header {
+            min-height: 300px;
+        }
+        
+        .display-4 {
+            font-size: 2rem;
+        }
+        
+        .accordion-button {
+            font-size: 0.9rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function shareOnFacebook() {
+    const url = encodeURIComponent(window.location.href);
+    const text = encodeURIComponent('Check out this course: {{ course.title }}');
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`, '_blank', 'width=600,height=400');
+}
+
+function shareOnTwitter() {
+    const url = encodeURIComponent(window.location.href);
+    const text = encodeURIComponent('Check out this course: {{ course.title }} - {{ course.get_level_display }}');
+    window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank', 'width=600,height=400');
+}
+
+function shareOnWhatsApp() {
+    const url = encodeURIComponent(window.location.href);
+    const text = encodeURIComponent('Check out this course: {{ course.title }} - {{ course.get_level_display }}\n' + window.location.href);
+    window.open(`https://wa.me/?text=${text}`, '_blank');
+}
+
+function copyLink() {
+    navigator.clipboard.writeText(window.location.href).then(function() {
+        // Create a temporary toast notification
+        const toast = document.createElement('div');
+        toast.className = 'alert alert-success position-fixed';
+        toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 250px;';
+        toast.innerHTML = '<i class="fas fa-check me-2"></i>Link copied to clipboard!';
+        document.body.appendChild(toast);
+        
+        setTimeout(function() {
+            toast.remove();
+        }, 3000);
+    }).catch(function() {
+        alert('Link: ' + window.location.href);
+    });
+}
+
+// Smooth scroll for anchor links
+document.addEventListener('DOMContentLoaded', function() {
+    const links = document.querySelectorAll('a[href^="#"]');
+    links.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+});
+</script>
+{% endblock %}
+{% endblock %}

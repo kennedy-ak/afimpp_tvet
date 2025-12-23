@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Register - AfIMMP TVTC{% endblock %}
+
+{% block content %}
+<section class="register-section py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8">
+                <div class="card shadow">
+                    <div class="card-body p-5">
+                        <div class="text-center mb-4">
+                            <i class="fas fa-user-plus text-primary fa-4x mb-3"></i>
+                            <h2 class="fw-bold">Create Account</h2>
+                            <p class="text-muted">Join AfIMMP TVTC today</p>
+                        </div>
+
+                        <div class="alert alert-info" role="alert">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <strong>Registration Code Required:</strong> You need a valid registration code to create an account.
+                            Call us at <strong>0557782728</strong> or email <strong>info@afimpp.edu.gh</strong> to express interest and receive your code.
+                        </div>
+
+                        <form method="post" id="registerForm">
+                            {% csrf_token %}
+
+                            {% if form.non_field_errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.non_field_errors }}
+                                </div>
+                            {% endif %}
+
+                            <!-- Registration Code Field - First and prominent -->
+                            <div class="mb-4">
+                                <label for="{{ form.registration_code.id_for_label }}" class="form-label fw-bold">
+                                    <i class="fas fa-key me-1"></i>Registration Code <span class="text-danger">*</span>
+                                </label>
+                                {{ form.registration_code }}
+                                {% if form.registration_code.errors %}
+                                    <div class="text-danger small mt-1">{{ form.registration_code.errors }}</div>
+                                {% endif %}
+                                <small class="form-text text-muted">{{ form.registration_code.help_text }}</small>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.first_name.id_for_label }}" class="form-label">First Name</label>
+                                    {{ form.first_name }}
+                                    {% if form.first_name.errors %}
+                                        <div class="text-danger small">{{ form.first_name.errors }}</div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.last_name.id_for_label }}" class="form-label">Last Name</label>
+                                    {{ form.last_name }}
+                                    {% if form.last_name.errors %}
+                                        <div class="text-danger small">{{ form.last_name.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="{{ form.username.id_for_label }}" class="form-label">Username <span class="text-danger">*</span></label>
+                                {{ form.username }}
+                                {% if form.username.errors %}
+                                    <div class="text-danger small">{{ form.username.errors }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="{{ form.email.id_for_label }}" class="form-label">Email <span class="text-danger">*</span></label>
+                                {{ form.email }}
+                                {% if form.email.errors %}
+                                    <div class="text-danger small">{{ form.email.errors }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="{{ form.phone.id_for_label }}" class="form-label">Phone Number</label>
+                                {{ form.phone }}
+                                {% if form.phone.errors %}
+                                    <div class="text-danger small">{{ form.phone.errors }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="{{ form.password1.id_for_label }}" class="form-label">Password <span class="text-danger">*</span></label>
+                                {{ form.password1 }}
+                                {% if form.password1.errors %}
+                                    <div class="text-danger small">{{ form.password1.errors }}</div>
+                                {% endif %}
+                                <small class="form-text text-muted">Password must be at least 8 characters long</small>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="{{ form.password2.id_for_label }}" class="form-label">Confirm Password <span class="text-danger">*</span></label>
+                                {{ form.password2 }}
+                                {% if form.password2.errors %}
+                                    <div class="text-danger small">{{ form.password2.errors }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="mb-3 form-check">
+                                {{ form.terms_accepted }}
+                                <label class="form-check-label" for="{{ form.terms_accepted.id_for_label }}">
+                                    I agree to the <a href="{% url 'terms_conditions' %}" target="_blank" class="text-primary">Terms and Conditions</a> *
+                                </label>
+                                {% if form.terms_accepted.errors %}
+                                    <div class="text-danger small">{{ form.terms_accepted.errors }}</div>
+                                {% endif %}
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100 btn-lg" id="registerButton">
+                                <i class="fas fa-user-plus me-2"></i>Register
+                            </button>
+                        </form>
+                        
+                        <hr class="my-4">
+                        
+                        <div class="text-center">
+                            <p class="mb-0">Already have an account? 
+                                <a href="{% url 'login' %}" class="text-primary fw-bold">Login here</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% block extra_js %}
+<script>
+// Override the global form submission handlers for the registration form
+document.addEventListener('DOMContentLoaded', function() {
+    const registerForm = document.getElementById('registerForm');
+    const registerButton = document.getElementById('registerButton');
+
+    if (registerForm) {
+        // Remove all existing event listeners by cloning and replacing the form
+        const newForm = registerForm.cloneNode(true);
+        registerForm.parentNode.replaceChild(newForm, registerForm);
+
+        // Add simple submission handler
+        newForm.addEventListener('submit', function(e) {
+            // Just show a simple loading state without preventing submission
+            const btn = newForm.querySelector('#registerButton');
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Creating your account...';
+            }
+            // Let the form submit naturally
+        });
+    }
+});
+</script>
+{% endblock %}
+{% endblock %}

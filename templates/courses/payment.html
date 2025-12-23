@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Payment - AfIMMP TVTC{% endblock %}
+
+{% block content %}
+<section class="payment-section py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow">
+                    <div class="card-body p-5">
+                        <div class="text-center mb-4">
+                            <i class="fas fa-credit-card text-primary fa-4x mb-3"></i>
+                            <h2 class="mb-3">Payment</h2>
+                        </div>
+                        
+                        <!-- Enrollment Details -->
+                        <div class="card bg-light mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">Enrollment Details</h5>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p><strong>Course:</strong><br>{{ enrollment.course.title }}</p>
+                                        <p><strong>Student:</strong><br>{{ enrollment.user.get_full_name|default:enrollment.user.username }}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        {% if enrollment.course.price and enrollment.course.price > 0 %}
+                                        <p><strong>Course Fee:</strong><br><span class="h4 text-primary">GHS {{ enrollment.course.price }}</span></p>
+                                        {% endif %}
+                                        <p><strong>Status:</strong><br>
+                                            <span class="badge bg-warning">{{ enrollment.get_payment_status_display }}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Payment Form -->
+                        <form method="post" id="paymentForm">
+                            {% csrf_token %}
+                            
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">Payment Method</label>
+                                {{ form.payment_method }}
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">Amount (GHS)</label>
+                                {{ form.amount }}
+                                {% if enrollment.course.price and enrollment.course.price > 0 %}
+                                <small class="form-text text-muted">Full course fee: GHS {{ enrollment.course.price }}</small>
+                                {% endif %}
+                            </div>
+                            
+                            <!-- Mobile Money Fields -->
+                            <div id="mobileMoneyFields" style="display: none;">
+                                <div class="card bg-light mb-3">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Mobile Money Details</h6>
+                                        <div class="mb-3">
+                                            <label class="form-label">Network</label>
+                                            {{ form.mobile_network }}
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Mobile Number</label>
+                                            {{ form.mobile_number }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Card Fields -->
+                            <div id="cardFields" style="display: none;">
+                                <div class="card bg-light mb-3">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Card Details</h6>
+                                        <div class="mb-3">
+                                            <label class="form-label">Card Number</label>
+                                            {{ form.card_number }}
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Expiry Date</label>
+                                                {{ form.card_expiry }}
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">CVV</label>
+                                                {{ form.card_cvv }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Bank Transfer Info -->
+                            <div id="bankTransferFields" style="display: none;">
+                                <div class="alert alert-info">
+                                    <h6 class="alert-heading">Bank Transfer Details</h6>
+                                    <p class="mb-1"><strong>Bank:</strong> Example Bank Ghana</p>
+                                    <p class="mb-1"><strong>Account Name:</strong> AfIMMP TVTC</p>
+                                    <p class="mb-1"><strong>Account Number:</strong> 1234567890</p>
+                                    <hr>
+                                    <small>Please use your Student ID as reference when making the transfer.</small>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between mt-4">
+                                <a href="{% url 'course_detail' enrollment.course.slug %}" class="btn btn-outline-secondary btn-lg">
+                                    <i class="fas fa-arrow-left me-2"></i>Cancel
+                                </a>
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-check me-2"></i>Complete Payment
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const paymentMethodSelect = document.getElementById('id_payment_method');
+    const mobileMoneyFields = document.getElementById('mobileMoneyFields');
+    const cardFields = document.getElementById('cardFields');
+    const bankTransferFields = document.getElementById('bankTransferFields');
+    
+    function togglePaymentFields() {
+        const selectedMethod = paymentMethodSelect.value;
+        
+        mobileMoneyFields.style.display = 'none';
+        cardFields.style.display = 'none';
+        bankTransferFields.style.display = 'none';
+        
+        if (selectedMethod === 'mobile_money') {
+            mobileMoneyFields.style.display = 'block';
+        } else if (selectedMethod === 'card') {
+            cardFields.style.display = 'block';
+        } else if (selectedMethod === 'bank_transfer') {
+            bankTransferFields.style.display = 'block';
+        }
+    }
+    
+    paymentMethodSelect.addEventListener('change', togglePaymentFields);
+    togglePaymentFields();
+});
+</script>
+{% endblock %}

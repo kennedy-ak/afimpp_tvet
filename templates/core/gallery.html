@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Gallery - AfIMMP TVTC{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header bg-primary text-white py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1 class="display-4 fw-bold">Our Gallery</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center">
+                        <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-white">Home</a></li>
+                        <li class="breadcrumb-item active text-white" aria-current="page">Gallery</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Gallery Section -->
+<section class="gallery-section py-5">
+    <div class="container">
+        <div class="row g-4">
+            {% for image in gallery_images %}
+            <div class="col-lg-4 col-md-6">
+                <div class="gallery-item position-relative overflow-hidden rounded shadow-sm">
+                    <img src="{{ image.image.url }}" alt="{{ image.title }}" class="img-fluid w-100" style="height: 300px; object-fit: cover; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#imageModal{{ image.id }}">
+                    <div class="gallery-overlay position-absolute bottom-0 start-0 w-100 bg-dark bg-opacity-75 text-white p-3">
+                        <h6 class="mb-0">{{ image.title }}</h6>
+                        {% if image.description %}
+                        <small>{{ image.description|truncatewords:10 }}</small>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Image Modal -->
+                <div class="modal fade" id="imageModal{{ image.id }}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">{{ image.title }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <img src="{{ image.image.url }}" alt="{{ image.title }}" class="img-fluid w-100">
+                                {% if image.description %}
+                                <p class="mt-3">{{ image.description }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info text-center">
+                    <i class="fas fa-info-circle me-2"></i>No gallery images available at the moment.
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

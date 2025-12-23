@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Courses - AfIMMP TVTC{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header text-white py-5" style="background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1 class="display-4 fw-bold">Our Courses</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center" style="background: transparent;">
+                        <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-white">Home</a></li>
+                        <li class="breadcrumb-item active text-white" aria-current="page">/ Courses</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Courses Section -->
+<section class="courses-section py-5">
+    <div class="container">
+        <!-- Search and Filter -->
+        <div class="row mb-4">
+            <div class="col-lg-8 mb-3 mb-lg-0">
+                <form method="get" action="{% url 'course_list' %}">
+                    <div class="input-group">
+                        <input type="text" name="search" class="form-control" placeholder="Search courses..." value="{{ search_query }}">
+                        <button class="btn" type="submit" style="background-color: #16a34a; color: white;">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-4">
+                <form method="get" action="{% url 'course_list' %}">
+                    <select name="level" class="form-select" onchange="this.form.submit()">
+                        <option value="">All Levels</option>
+                        <option value="3" {% if selected_level == '3' %}selected{% endif %}>Level 3</option>
+                        <option value="4" {% if selected_level == '4' %}selected{% endif %}>Level 4</option>
+                        <option value="5" {% if selected_level == '5' %}selected{% endif %}>Level 5</option>
+                    </select>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Courses Grid -->
+        <div class="row">
+            {% for course in courses %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100 shadow-sm course-card">
+                    {% if course.image %}
+                    <img src="{{ course.image.url }}" class="card-img-top" alt="{{ course.title }}" style="height: 250px; object-fit: cover;">
+                    {% else %}
+                    <div class="card-img-top d-flex align-items-center justify-content-center" style="height: 250px; background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);">
+                        <i class="fas fa-graduation-cap fa-5x text-white"></i>
+                    </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <span class="badge mb-2" style="background-color: #16a34a; color: white;">Level {{ course.level }}</span>
+                        <h5 class="card-title">{{ course.short_title|default:course.title }}</h5>
+                        <p class="card-text text-muted">{{ course.description|truncatewords:25 }}</p>
+                        <ul class="list-unstyled mb-3">
+                            <li class="mb-2">
+                                <i class="fas fa-clock me-2" style="color: #16a34a;"></i>
+                                <strong>Duration:</strong> {{ course.duration_months }} Months
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-laptop me-2" style="color: #16a34a;"></i>
+                                <strong>Mode:</strong> {{ course.learning_mode }}
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-footer bg-white border-0">
+                        <a href="{% url 'course_detail' course.slug %}" class="btn w-100" style="background-color: #16a34a; color: white;">
+                            View Details <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info text-center">
+                    <i class="fas fa-info-circle me-2"></i>
+                    {% if search_query %}
+                        No courses found matching "{{ search_query }}".
+                    {% else %}
+                        No courses available at the moment.
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

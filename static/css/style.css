@@ -1,0 +1,763 @@
+/* ========================================
+   General Styles
+======================================== */
+:root {
+    --primary-color: #0d5345;
+    --secondary-color: #6c757d;
+    --success-color: #198754;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --info-color: #0dcaf0;
+    --light-color: #f8f9fa;
+    --dark-color: #000000;
+    --orange-accent: #ff6b35;
+    --green-button: #0d5345;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f8f9fa;
+}
+
+a {
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ========================================
+   Top Contact Bar
+======================================== */
+.top-contact-bar {
+    background-color: #000000;
+    color: #ffffff;
+    padding: 8px 0;
+    font-size: 0.85rem;
+}
+
+.top-contact-bar a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.top-contact-bar a:hover {
+    color: #e0e0e0;
+}
+
+.top-contact-bar i {
+    margin-right: 8px;
+}
+
+/* ========================================
+   Navbar Styles
+======================================== */
+.sticky-top {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+}
+
+.navbar {
+    transition: all 0.3s ease;
+    background-color: var(--primary-color) !important;
+}
+
+.navbar-brand {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #ffffff !important;
+}
+
+.navbar-brand:hover {
+    color: #ffffff !important;
+}
+
+.nav-link {
+    font-weight: 500;
+    margin: 0 10px;
+    position: relative;
+    transition: color 0.3s ease;
+    color: #ffffff !important;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: #ffffff !important;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #ffffff;
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 100%;
+}
+
+.navbar .btn-light {
+    background-color: #ffffff;
+    color: var(--primary-color);
+    border-color: #ffffff;
+    font-weight: 600;
+}
+
+.navbar .btn-light:hover {
+    background-color: #f0f0f0;
+    color: var(--primary-color);
+    border-color: #f0f0f0;
+}
+
+.navbar .dropdown-menu {
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.navbar .dropdown-item {
+    color: #333;
+}
+
+.navbar .dropdown-item:hover {
+    background-color: var(--primary-color);
+    color: #ffffff;
+}
+
+@media (max-width: 991px) {
+    .navbar-brand {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar-brand {
+        font-size: 0.8rem;
+    }
+
+    .top-contact-bar {
+        font-size: 0.75rem;
+    }
+
+    .top-contact-bar .d-flex {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .top-contact-bar .d-flex > div {
+        margin: 2px 0;
+    }
+}
+
+/* ========================================
+   Hero Section with Slideshow
+======================================== */
+.hero-section {
+    min-height: 70vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.min-vh-50 {
+    min-height: 50vh;
+}
+
+/* Hero Slideshow Container */
+.hero-slideshow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+/* Individual Slides */
+.hero-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    animation: slideshow 15s infinite;
+}
+
+/* Stagger animation for each slide */
+.hero-slide:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.hero-slide:nth-child(2) {
+    animation-delay: 5s;
+}
+
+.hero-slide:nth-child(3) {
+    animation-delay: 10s;
+}
+
+/* Slideshow Animation */
+@keyframes slideshow {
+    0% {
+        opacity: 0;
+        transform: scale(1);
+    }
+    5% {
+        opacity: 1;
+    }
+    33% {
+        opacity: 1;
+    }
+    38% {
+        opacity: 0;
+        transform: scale(1.1);
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+/* Dark overlay for better text readability */
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        135deg,
+        rgba(0, 0, 0, 0.6) 0%,
+        rgba(0, 0, 0, 0.4) 100%
+    );
+    z-index: 1;
+}
+
+.hero-section h1 {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    border-left: 5px solid var(--orange-accent);
+    padding-left: 20px;
+    font-weight: 800;
+}
+
+.hero-section .subtitle {
+    border-left: 5px solid var(--orange-accent);
+    padding-left: 20px;
+    font-weight: 600;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.hero-section p {
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.hero-section .btn {
+    padding: 12px 30px;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    background-color: var(--green-button);
+    border-color: var(--green-button);
+    color: #ffffff;
+}
+
+.hero-section .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    background-color: #0a4237;
+    border-color: #0a4237;
+}
+
+/* ========================================
+   Card Styles
+======================================== */
+.card {
+    border: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.course-card {
+    overflow: hidden;
+}
+
+.course-card .card-img-top {
+    transition: transform 0.3s ease;
+}
+
+.course-card:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+.card-footer {
+    background-color: transparent;
+}
+
+/* ========================================
+   Section Label Styles
+======================================== */
+.section-label {
+    color: var(--orange-accent);
+    border-left: 4px solid var(--orange-accent);
+    padding-left: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    display: inline-block;
+}
+
+/* ========================================
+   Button Styles
+======================================== */
+.btn {
+    border-radius: 5px;
+    padding: 10px 25px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: var(--green-button);
+    border-color: var(--green-button);
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: #0a4237;
+    border-color: #0a4237;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(13, 83, 69, 0.3);
+}
+
+.btn-outline-primary:hover {
+    transform: translateY(-2px);
+}
+
+/* ========================================
+   Page Header
+======================================== */
+.page-header {
+    background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+}
+
+.breadcrumb {
+    background-color: transparent;
+    margin-bottom: 0;
+}
+
+.breadcrumb-item a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+}
+
+.breadcrumb-item a:hover {
+    color: white;
+}
+
+.breadcrumb-item.active {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* ========================================
+   Gallery Styles
+======================================== */
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.gallery-item img {
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.1);
+}
+
+.gallery-overlay {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.gallery-item:hover .gallery-overlay {
+    opacity: 1;
+}
+
+/* ========================================
+   Form Styles
+======================================== */
+.form-control,
+.form-select {
+    border-radius: 5px;
+    padding: 12px 15px;
+    border: 1px solid #ced4da;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+.input-group-text {
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+}
+
+/* ========================================
+   Badge Styles
+======================================== */
+.badge {
+    padding: 6px 12px;
+    font-weight: 500;
+    border-radius: 4px;
+}
+
+/* ========================================
+   Table Styles
+======================================== */
+.table {
+    background-color: white;
+}
+
+.table thead th {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+    font-weight: 600;
+    color: #495057;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(13, 110, 253, 0.05);
+}
+
+/* ========================================
+   Footer Styles
+======================================== */
+footer {
+    background-color: #000000;
+}
+
+footer h5 {
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #ffffff;
+}
+
+footer a {
+    color: rgba(255, 255, 255, 0.8);
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: white;
+}
+
+.social-links a {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 50%;
+    background-color: #ffffff;
+    color: #000000;
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    background-color: var(--green-button);
+    color: #ffffff;
+    transform: translateY(-3px);
+}
+
+.newsletter-form .input-group {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.newsletter-form .btn {
+    background-color: var(--warning-color);
+    border-color: var(--warning-color);
+    color: #000000;
+    font-weight: 700;
+}
+
+.newsletter-form .btn:hover {
+    background-color: #e6ac00;
+    border-color: #e6ac00;
+}
+
+/* ========================================
+   Dashboard Styles
+======================================== */
+.dashboard-content .card {
+    border-left-width: 4px;
+}
+
+.dashboard-content .sticky-top {
+    position: sticky;
+    top: 100px;
+    z-index: 1020;
+}
+
+/* ========================================
+   Profile Styles
+======================================== */
+.profile-section .card {
+    border-radius: 10px;
+}
+
+.profile-section img {
+    border: 4px solid white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* ========================================
+   Alert Styles
+======================================== */
+.alert {
+    border-radius: 8px;
+    border: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.alert-dismissible .btn-close {
+    padding: 0.75rem;
+}
+
+/* ========================================
+   Accordion Styles
+======================================== */
+.accordion-button:not(.collapsed) {
+    background-color: rgba(13, 110, 253, 0.1);
+    color: var(--primary-color);
+}
+
+.accordion-button:focus {
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* ========================================
+   Loading Spinner
+======================================== */
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+}
+
+/* ========================================
+   Animations
+======================================== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+/* ========================================
+   Scroll to Top Button
+======================================== */
+.scroll-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 50px;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.scroll-to-top.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.scroll-to-top:hover {
+    background-color: #0a58ca;
+    transform: translateY(-5px);
+}
+
+/* ========================================
+   CTA Section
+======================================== */
+.cta-section {
+    background-color: var(--primary-color);
+}
+
+.cta-section .btn {
+    background-color: #ffffff;
+    color: var(--primary-color);
+    border-color: #ffffff;
+    font-weight: 700;
+}
+
+.cta-section .btn:hover {
+    background-color: #f0f0f0;
+    color: var(--primary-color);
+    border-color: #f0f0f0;
+}
+
+/* ========================================
+   Course Detail Sidebar
+======================================== */
+.course-sidebar {
+    top: 120px !important; /* keep below navbar + header */
+    z-index: 1020 !important; /* lower than navbar (1030) */
+}
+
+@media (max-width: 992px) {
+    .course-sidebar {
+        position: static !important;
+        top: auto !important;
+        margin-top: 1rem;
+    }
+}
+
+/* ========================================
+   Responsive Styles
+======================================== */
+@media (max-width: 768px) {
+    .hero-section {
+        min-height: 50vh;
+    }
+
+    .display-4 {
+        font-size: 2rem;
+    }
+
+    .display-5 {
+        font-size: 1.75rem;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    .dashboard-content .sticky-top {
+        position: relative !important;
+        top: 0 !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .btn-lg {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+
+    .hero-section h1 {
+        font-size: 1.75rem;
+    }
+
+    .hero-section .lead {
+        font-size: 1rem;
+    }
+}
+
+/* ========================================
+   Print Styles
+======================================== */
+@media print {
+    .navbar,
+    footer,
+    .btn,
+    .scroll-to-top {
+        display: none !important;
+    }
+    
+    .card {
+        box-shadow: none !important;
+        border: 1px solid #dee2e6 !important;
+    }
+}
+
+/* ========================================
+   Utility Classes
+======================================== */
+.shadow-sm {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+}
+
+.shadow {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.shadow-lg {
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+}
+
+.text-primary {
+    color: var(--primary-color) !important;
+}
+
+.bg-primary {
+    background-color: var(--primary-color) !important;
+}
+
+.border-primary {
+    border-color: var(--primary-color) !important;
+}
+
+/* ========================================
+   Custom Scrollbar
+======================================== */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #0a58ca;
+}

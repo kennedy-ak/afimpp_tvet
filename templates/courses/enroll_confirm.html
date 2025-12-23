@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Enroll - {{ course.title }}{% endblock %}
+
+{% block content %}
+<section class="enroll-confirm py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow">
+                    <div class="card-body p-5">
+                        <div class="text-center mb-4">
+                            <i class="fas fa-graduation-cap text-primary fa-4x mb-3"></i>
+                            <h2 class="mb-3">Confirm Enrollment</h2>
+                            <p class="text-muted">You are about to enroll in the following course:</p>
+                        </div>
+                        
+                        <div class="card bg-light mb-4">
+                            <div class="card-body">
+                                <h4 class="card-title">{{ course.title }}</h4>
+                                <ul class="list-unstyled mt-3">
+                                    <li class="mb-2"><strong>Level:</strong> {{ course.get_level_display }}</li>
+                                    <li class="mb-2"><strong>Duration:</strong> {{ course.duration_months }} Months</li>
+                                    <li class="mb-2"><strong>Learning Mode:</strong> {{ course.learning_mode }}</li>
+                                    {% if course.price and course.price > 0 %}
+                                    <li class="mb-2"><strong>Price:</strong> <span class="text-primary fw-bold">GHS {{ course.price }}</span></li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>
+                            After confirming your enrollment, you will be redirected to the payment page to complete your registration.
+                        </div>
+                        
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="d-flex justify-content-between">
+                                <a href="{% url 'course_detail' course.slug %}" class="btn btn-outline-secondary btn-lg">
+                                    <i class="fas fa-arrow-left me-2"></i>Back
+                                </a>
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    Confirm & Proceed <i class="fas fa-arrow-right ms-2"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

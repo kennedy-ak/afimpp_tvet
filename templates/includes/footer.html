@@ -1,0 +1,74 @@
+{% load static %}
+<footer class="text-white pt-5 pb-3 mt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <h5 class="mb-3">AfIMMP Technical And Vocational Training Center</h5>
+                <p>At AfIMMP, we are dedicated to providing specialized training and education in the fields of mining, industrial systems, and engineering. Our institution equips professionals with the technical and practical skills needed to excel in the rapidly evolving mining sector.</p>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <h5 class="mb-3" style="text-decoration: underline;">Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="{% url 'contact' %}" class="text-white text-decoration-none">Contact Us</a></li>
+                    <li class="mb-2"><a href="{% url 'about' %}" class="text-white text-decoration-none">About Us</a></li>
+                    <li class="mb-2"><a href="{% url 'course_list' %}" class="text-white text-decoration-none">Courses</a></li>
+                    <li class="mb-2"><a href="{% url 'terms_conditions' %}" class="text-white text-decoration-none">Terms & Conditions</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none" style="color: #ffc107 !important;">Science Hub Seminar 2020</a></li>
+                {% if not user.is_authenticated %}
+                    <li class="mb-2"><a href="{% url 'login' %}" class="text-white text-decoration-none">Login</a></li>
+                    <li class="mb-2"><a href="{% url 'register' %}" class="text-white text-decoration-none">Register</a></li>
+                {% endif %}
+                </ul>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <h5 class="mb-3" style="text-decoration: underline;">Contact Information</h5>
+                <div class="contact-info">
+                    <p class="mb-2">
+                        <i class="fas fa-phone me-2"></i>
+                        <span>0557782728</span>
+                    </p>
+                    <p class="mb-2">
+                        <i class="fas fa-envelope me-2"></i>
+                        <span>info@afimpp.edu.gh</span>
+                    </p>
+                    <p class="mb-2">
+                        <i class="fas fa-map-marker-alt me-2"></i>
+                        <span>Accra, Ghana</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <h5 class="mb-3" style="text-decoration: underline;">Newsletter</h5>
+                <form method="post" action="{% url 'home' %}" class="newsletter-form">
+                    {% csrf_token %}
+                    <div class="input-group mb-4">
+                        <input type="email" name="email" class="form-control" placeholder="Subscribe To Newsletter: *" required>
+                        <button class="btn" type="submit" name="newsletter_submit">
+                            SEND
+                        </button>
+                    </div>
+                </form>
+
+                <h5 class="mb-3" style="text-decoration: underline;">Follow Us On</h5>
+                <div class="social-links">
+                    <a href="#" target="_blank"><i class="fab fa-facebook fa-lg"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-twitter fa-lg"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-linkedin fa-lg"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-reddit fa-lg"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-skype fa-lg"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <hr class="bg-secondary">
+
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <p class="mb-0">&copy; {% now "Y" %} AfIMMP Technical And Vocational Training Center</p>
+            </div>
+        </div>
+    </div>
+</footer>

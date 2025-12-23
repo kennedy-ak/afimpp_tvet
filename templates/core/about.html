@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About Us - AfIMMP TVTC{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header" style="background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%); padding: 100px 0 60px 0;">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="display-4 fw-bold text-white mb-3" style="border-left: 5px solid #f59e0b; padding-left: 20px;">About</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb" style="background: transparent;">
+                        <li class="breadcrumb-item"><a href="{% url 'home' %}" style="color: #34d399;">Home</a></li>
+                        <li class="breadcrumb-item text-white" aria-current="page">/ About</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About AfIMMP-TVET Section -->
+<section class="about-content py-5">
+    <div class="container my-5">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <h5 class="text-muted mb-2" style="border-left: 4px solid #f59e0b; padding-left: 15px;">About AfIMMP-TVET</h5>
+                <h2 class="fw-bold mb-4">{{ site_settings.about_title|default:"Know more about AfIMMP-TVET" }}</h2>
+                <p class="text-muted mb-3">
+                    {% if site_settings.about_description %}
+                        {{ site_settings.about_description }}
+                    {% else %}
+                        The African Institution of Mining Professionals and Practitioners(AfIMMP) in collaboration with Lectures in the Department of Mining Engineering of the University of Mines and Technology together with industry experts has developed globally recognized online mining courses with leading organisations and subject matter experts, so you can build practical knowledge and skills, unearth real life case studies and connect with peers through live and on-demand sessions. No matter where you are in your career journey, there is a Professional Certificate, Short Course or Self-paced Course to help you excel.
+                    {% endif %}
+                </p>
+                {% if site_settings.about_paragraph_2 %}
+                <p class="text-muted">{{ site_settings.about_paragraph_2 }}</p>
+                {% else %}
+                <p class="text-muted">
+                    The African Institution of Mining Professionals and Practitioners is a professional body that aims to promote excellence and professionalism in the mining industry in Africa. It provides a platform for networking, knowledge sharing, and advocacy within the mining sector. AfIMMP offers training programs, organizes conferences, and publishes research to support the development of the mining profession in African. Additionally, it works to uphold ethical standards and sustainability practices in mining operations
+                </p>
+                {% endif %}
+            </div>
+            <div class="col-lg-6">
+                {% if site_settings.about_image %}
+                    <img src="{{ site_settings.about_image.url }}" alt="About AfIMMP" class="img-fluid rounded shadow">
+                {% else %}
+                    <img src="{% static 'images/hero1.jpg' %}" alt="About AfIMMP" class="img-fluid rounded shadow">
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Statistics Section -->
+<section class="statistics-section py-5" style="background-color: #4a5568;">
+    <div class="container">
+        <div class="row text-center text-white">
+            <div class="col-md-4 mb-4 mb-md-0">
+                <div class="stat-icon mb-3">
+                    <i class="fas fa-book-open fa-3x" style="color: #34d399;"></i>
+                </div>
+                <h2 class="display-4 fw-bold">{{ site_settings.courses_count|default:3 }}+</h2>
+                <p class="fs-5">Courses Available</p>
+            </div>
+            <div class="col-md-4 mb-4 mb-md-0">
+                <div class="stat-icon mb-3">
+                    <i class="fas fa-chalkboard-teacher fa-3x" style="color: #34d399;"></i>
+                </div>
+                <h2 class="display-4 fw-bold">{{ site_settings.lecturers_count|default:3 }}+</h2>
+                <p class="fs-5">Certified Lecturers</p>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-icon mb-3">
+                    <i class="fas fa-user-graduate fa-3x" style="color: #34d399;"></i>
+                </div>
+                <h2 class="display-4 fw-bold">{{ site_settings.students_count|default:10 }}+</h2>
+                <p class="fs-5">Student Studied</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Us Section -->
+<section class="why-choose-us py-5">
+    <div class="container my-5">
+        <h2 class="fw-bold text-center mb-5">Why choose us?</h2>
+
+        <div class="row mb-5">
+            <!-- Mission Statement -->
+            <div class="col-md-6 mb-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="icon-box d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; background-color: #e8f5e9; border: 2px solid #34d399; border-radius: 8px;">
+                                <i class="fas fa-handshake fa-2x" style="color: #34d399;"></i>
+                            </div>
+                            <h4 class="card-title mb-0 ms-3">Mission Statement</h4>
+                        </div>
+                        <p class="card-text text-muted">
+                            {% if site_settings.mission_statement %}
+                                {{ site_settings.mission_statement }}
+                            {% else %}
+                                Our Mission is to promote excellence in the mining industry through professional development, knowledge sharing, and ethical practices, while contributing to sustainable development and socioeconomic growth in Ghana,
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vision Statement -->
+            <div class="col-md-6 mb-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="icon-box d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; background-color: #e8f5e9; border: 2px solid #34d399; border-radius: 8px;">
+                                <i class="fas fa-award fa-2x" style="color: #34d399;"></i>
+                            </div>
+                            <h4 class="card-title mb-0 ms-3">Vision Statement</h4>
+                        </div>
+                        <p class="card-text text-muted">
+                            {% if site_settings.vision_statement %}
+                                {{ site_settings.vision_statement }}
+                            {% else %}
+                                Our Mission is to promote excellence in the mining industry through professional development, knowledge sharing, and ethical practices, while contributing to sustainable development and socioeconomic growth in Ghana,
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Core Values -->
+        <div class="row">
+            <div class="col-12 mb-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="icon-box d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; background-color: #e8f5e9; border: 2px solid #34d399; border-radius: 8px;">
+                                <i class="fas fa-book fa-2x" style="color: #34d399;"></i>
+                            </div>
+                            <h4 class="card-title mb-0 ms-3">Our Core Values</h4>
+                        </div>
+                        <p class="card-text text-muted">
+                            {% if site_settings.core_values %}
+                                {{ site_settings.core_values }}
+                            {% else %}
+                                We have a culture that is modern, relevant, and inspires students to have a brighter future. We are determined in our approach to learning, are creative in our thinking, and bold in our ambitions.
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Gallery Section -->
+{% if gallery_images %}
+<section class="gallery-section py-5" style="background-color: #f9fafb;">
+    <div class="container">
+        <h2 class="fw-bold text-center mb-5">Our Gallery</h2>
+        <div class="row g-4">
+            {% for image in gallery_images %}
+            <div class="col-md-4 col-sm-6">
+                <div class="gallery-item position-relative overflow-hidden rounded shadow" style="height: 300px;">
+                    <img src="{{ image.image.url }}" alt="{{ image.title }}" class="img-fluid w-100 h-100" style="object-fit: cover;">
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% endblock %}
