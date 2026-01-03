@@ -1,0 +1,407 @@
+[
+{
+  "model": "admin.logentry",
+  "pk": 9,
+  "fields": {
+    "action_time": "2025-12-22T00:47:57.039Z",
+    "user": [
+      "prof"
+    ],
+    "content_type": [
+      "courses",
+      "course"
+    ],
+    "object_id": "1",
+    "object_repr": "Higher Professional Certificate I in Mining and Quarrying Technology (Level 3)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Image\", \"Description\", \"Requirements\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 8,
+  "fields": {
+    "action_time": "2025-12-22T00:47:50.195Z",
+    "user": [
+      "prof"
+    ],
+    "content_type": [
+      "courses",
+      "course"
+    ],
+    "object_id": "2",
+    "object_repr": "Higher Professional Certificate II in Mines Systems Engineering (Level 4)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Image\", \"Description\", \"Requirements\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 7,
+  "fields": {
+    "action_time": "2025-12-22T00:47:13.933Z",
+    "user": [
+      "prof"
+    ],
+    "content_type": [
+      "courses",
+      "course"
+    ],
+    "object_id": "3",
+    "object_repr": "Higher Professional Diploma (HPD) in Mines System Engineering (Level 5)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Image\", \"Description\", \"Requirements\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 6,
+  "fields": {
+    "action_time": "2025-12-22T00:44:27.007Z",
+    "user": [
+      "prof"
+    ],
+    "content_type": [
+      "core",
+      "galleryimage"
+    ],
+    "object_id": "6",
+    "object_repr": "5",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 5,
+  "fields": {
+    "action_time": "2025-12-22T00:44:18.681Z",
+    "user": [
+      "prof"
+    ],
+    "content_type": [
+      "core",
+      "galleryimage"
+    ],
+    "object_id": "5",
+    "object_repr": "4",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 4,
+  "fields": {
+    "action_time": "2025-12-22T00:44:10.339Z",
+    "user": [
+      "prof"
+    ],
+    "content_type": [
+      "core",
+      "galleryimage"
+    ],
+    "object_id": "4",
+    "object_repr": "3",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 3,
+  "fields": {
+    "action_time": "2025-12-22T00:44:03.276Z",
+    "user": [
+      "prof"
+    ],
+    "content_type": [
+      "core",
+      "galleryimage"
+    ],
+    "object_id": "3",
+    "object_repr": "2",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 2,
+  "fields": {
+    "action_time": "2025-12-22T00:43:56.378Z",
+    "user": [
+      "prof"
+    ],
+    "content_type": [
+      "core",
+      "galleryimage"
+    ],
+    "object_id": "2",
+    "object_repr": "1",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 1,
+  "fields": {
+    "action_time": "2025-12-22T00:43:48.036Z",
+    "user": [
+      "prof"
+    ],
+    "content_type": [
+      "core",
+      "galleryimage"
+    ],
+    "object_id": "1",
+    "object_repr": "1",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "core.galleryimage",
+  "pk": 6,
+  "fields": {
+    "title": "5",
+    "image": "gallery/3-300x225_vyk7ZE8.jpg",
+    "description": "",
+    "order": 0,
+    "is_active": true,
+    "uploaded_at": "2025-12-22T00:44:27.001Z"
+  }
+},
+{
+  "model": "core.galleryimage",
+  "pk": 5,
+  "fields": {
+    "title": "4",
+    "image": "gallery/3-300x225.jpg",
+    "description": "",
+    "order": 0,
+    "is_active": true,
+    "uploaded_at": "2025-12-22T00:44:18.679Z"
+  }
+},
+{
+  "model": "core.galleryimage",
+  "pk": 4,
+  "fields": {
+    "title": "3",
+    "image": "gallery/2-300x225.jpg",
+    "description": "",
+    "order": 0,
+    "is_active": true,
+    "uploaded_at": "2025-12-22T00:44:10.336Z"
+  }
+},
+{
+  "model": "core.galleryimage",
+  "pk": 3,
+  "fields": {
+    "title": "2",
+    "image": "gallery/5-300x225_QH9chIP.jpg",
+    "description": "",
+    "order": 0,
+    "is_active": true,
+    "uploaded_at": "2025-12-22T00:44:03.260Z"
+  }
+},
+{
+  "model": "core.galleryimage",
+  "pk": 2,
+  "fields": {
+    "title": "1",
+    "image": "gallery/5-300x225.jpg",
+    "description": "",
+    "order": 0,
+    "is_active": true,
+    "uploaded_at": "2025-12-22T00:43:56.373Z"
+  }
+},
+{
+  "model": "core.galleryimage",
+  "pk": 1,
+  "fields": {
+    "title": "1",
+    "image": "gallery/IMG-20240530-WA00671-1-300x175-1-150x150.png",
+    "description": "",
+    "order": 0,
+    "is_active": true,
+    "uploaded_at": "2025-12-22T00:43:48.034Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 3,
+  "fields": {
+    "title": "Higher Professional Diploma (HPD) in Mines System Engineering (Level 5)",
+    "slug": "higher-professional-diploma-hpd-in-mines-system-engineering-level-5",
+    "short_title": "HPD in Mines System Engineering (Level 5)",
+    "description": "The Higher Professional Diploma (HPD) in Mines System Engineering (Level 5) is an advanced program designed for professionals seeking to advance their expertise in mine systems engineering.\r\n\r\nCOURSE STRUCTURE:\r\nTotal Credits: 60\r\n\r\nThe program covers advanced topics in mine systems engineering, preparing graduates for senior technical and management roles in the mining industry.\r\n\r\nThis qualification builds upon foundational knowledge and develops advanced competencies required for modern mining operations.",
+    "level": "5",
+    "duration_months": 18,
+    "image": "courses/dominik-vanyi-Mk2ls9UBO2E-unsplash.jpg",
+    "overview": "The Higher Professional Diploma (HPD) in Mines System Engineering is an advanced Level 5 program designed to provide comprehensive knowledge and skills in mine systems engineering. This program is structured to develop competent professionals capable of managing and optimizing mining operations and systems.",
+    "requirements": "Completion of Higher Professional Certificate II (Level 4) or equivalent qualification.\r\nRelevant work experience in mining or related engineering fields.\r\nStrong foundation in mathematics, science, and engineering principles.",
+    "learning_mode": "Blended Learning (Online + Face-to-Face)",
+    "price": "0.00",
+    "is_active": true,
+    "featured": true,
+    "created_at": "2025-12-22T00:16:34.330Z",
+    "updated_at": "2025-12-22T00:47:13.931Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 2,
+  "fields": {
+    "title": "Higher Professional Certificate II in Mines Systems Engineering (Level 4)",
+    "slug": "higher-professional-certificate-ii-in-mines-systems-engineering-level-4",
+    "short_title": "Mines Systems Engineering (Level 4)",
+    "description": "The Higher Professional Certificate II in Mine Systems Engineering is a 12-month Competency-Based Training (CBT) course designed for mining professionals already in the workforce aiming to build on their existing skills, as well as senior secondary school leavers or those with equivalent qualifications seeking in-depth knowledge in mine systems engineering. This program follows a blended learning model, incorporating online sessions with flexible digital classes accessible from anywhere and face-to-face workshops that provide practical, hands-on sessions to enhance technical competence.\r\n\r\nPROGRAM STRUCTURE:\r\n\r\nCore Competency Areas Include:\r\n- Mine Safety Regulations\r\n- Basic Electrotechnics & Electronics\r\n- Soil & Rock Mechanics\r\n- Ghana Mining Laws & Regulations\r\n- Mine Ventilation & Environmental Management\r\n- Mine Planning & Design Principles\r\n- Basics of Underground & Surface Mining\r\n- Mineral Processing & Mineral Economics\r\n- Business Ethics & Project Evaluation\r\n\r\nTotal Credits: 35 (plus electives)\r\n\r\nElective Options: Specialized subjects such as Mine Automation, Advanced Mineral Processing, Sustainable Mining Practices, and more.\r\n\r\nADMISSIONS:\r\nWe offer two intakes each year:\r\n- January & June\r\n\r\nWHY CHOOSE AFIMPP:\r\n- Industry-Endorsed Curriculum - Delivers up-to-date knowledge for the modern mining sector.\r\n- Flexible Study Format - Seamless blend of online coursework and onsite practical sessions.\r\n- Expert Faculty - Instructors with extensive industry and academic experience.\r\n- Hands-On Training - Practical exercises and case studies that simulate real-world mining scenarios.",
+    "level": "4",
+    "duration_months": 12,
+    "image": "courses/shane-mclendon-EN1tF2EG-50-unsplash.jpg",
+    "overview": "The Higher Professional Certificate II in Mine Systems Engineering is a 12-month Competency-Based Training (CBT) course designed for mining professionals already in the workforce aiming to build on their existing skills, as well as senior secondary school leavers or those with equivalent qualifications seeking in-depth knowledge in mine systems engineering. This program follows a blended learning model, incorporating online sessions with flexible digital classes accessible from anywhere and face-to-face workshops that provide practical, hands-on sessions to enhance technical competence.",
+    "requirements": "Senior secondary school certificate or equivalent qualifications.\r\nExperience in mining or related industries (preferred for workforce professionals).\r\nBasic understanding of mathematics and science principles.",
+    "learning_mode": "Blended Learning (Online + Face-to-Face)",
+    "price": "0.00",
+    "is_active": true,
+    "featured": true,
+    "created_at": "2025-12-22T00:09:03.546Z",
+    "updated_at": "2025-12-22T00:47:50.194Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 1,
+  "fields": {
+    "title": "Higher Professional Certificate I in Mining and Quarrying Technology (Level 3)",
+    "slug": "higher-professional-certificate-i-in-mining-and-quarrying-technology-level-3",
+    "short_title": "Mining and Quarrying Technology (Level 3)",
+    "description": "The Higher Professional Certificate I in Mining and Quarrying Technology is a 24-month Competency-Based Training (CBT) program designed for:\r\n\r\n• Individuals with experience in mining and related fields looking to upskill and advance in their careers.\r\n• Junior secondary school leavers or equivalent interested in entering the mining and quarrying industry.\r\n\r\nABOUT THE PROGRAM:\r\nThe Higher Professional Certificate I in Mining and Quarrying Technology is a 24-month Competency-Based Training (CBT) program designed for:\r\n• Individuals with experience in mining and related fields looking to upskill and advance in their careers.\r\n• Junior secondary school leavers or equivalent interested in entering the mining and quarrying industry.\r\n\r\nADMISSIONS:\r\nWe offer two intakes annually:\r\n• January\r\n• June\r\n\r\nASSESSMENT:\r\nAssessments are conducted at the end of each module. They include:\r\n• Practical Demonstrations: Real-world application of learned skills.\r\n• Written Tests: Evaluation of theoretical knowledge.\r\n• Project Work: Hands-on projects in simulated environments.\r\n\r\nADMISSION REQUIREMENTS:\r\n• Completion of Basic Education Certificate Examination (BECE) or equivalent.\r\n• Proficiency in basic English and Mathematics.\r\n• Interest or prior experience in mining or related industries (preferred but not mandatory).\r\n\r\nWHY CHOOSE AFIMPP?\r\n• Industry-Relevant Curriculum – Designed to meet the evolving needs of the mining and quarrying sector.\r\n• Hybrid Learning Model – Study at your convenience with online and in-person training.\r\n• Expert Faculty – Learn from professionals with real-world mining and quarrying experience.\r\n• Hands-On Training – Gain practical skills applicable to the field.",
+    "level": "3",
+    "duration_months": 24,
+    "image": "courses/shane-mclendon-9jPJrfLTBi0-unsplash.jpg",
+    "overview": "The Higher Professional Certificate I in Mining and Quarrying Technology is a 24-month Competency-Based Training (CBT) program designed for individuals with experience in mining and related fields looking to upskill and advance in their careers, as well as junior secondary school leavers or those with equivalent qualifications interested in entering the mining and quarrying industry. This program adopts a blended learning approach, integrating online learning through flexible, interactive virtual classes and face-to-face sessions that provide practical training with industry experts.",
+    "requirements": "Completion of Basic Education Certificate Examination (BECE) or equivalent.\r\nProficiency in basic English and Mathematics.\r\nInterest or prior experience in mining or related industries (preferred but not mandatory).",
+    "learning_mode": "Blended Learning (Online + Face-to-Face)",
+    "price": "0.00",
+    "is_active": true,
+    "featured": true,
+    "created_at": "2025-12-22T00:00:54.402Z",
+    "updated_at": "2025-12-22T00:47:57.036Z"
+  }
+},
+{
+  "model": "courses.coursemodule",
+  "pk": 1,
+  "fields": {
+    "course": 1,
+    "title": "Introduction to Mining and Quarrying Technology",
+    "description": "Fundamental concepts and overview of mining and quarrying operations. Students will learn about the history, importance, and basic principles of mining technology.",
+    "order": 1
+  }
+},
+{
+  "model": "courses.coursemodule",
+  "pk": 2,
+  "fields": {
+    "course": 1,
+    "title": "Geology and Mineral Resources",
+    "description": "Understanding geological formations, mineral identification, resource assessment, and exploration techniques used in mining operations.",
+    "order": 2
+  }
+},
+{
+  "model": "courses.coursemodule",
+  "pk": 3,
+  "fields": {
+    "course": 1,
+    "title": "Mining Methods and Techniques",
+    "description": "Study of various mining methods including surface mining, underground mining, and modern extraction techniques. Equipment operation and safety protocols.",
+    "order": 3
+  }
+},
+{
+  "model": "courses.coursemodule",
+  "pk": 4,
+  "fields": {
+    "course": 1,
+    "title": "Quarrying Operations",
+    "description": "Detailed study of quarrying techniques, stone extraction, blasting methods, and equipment management for construction materials.",
+    "order": 4
+  }
+},
+{
+  "model": "courses.coursemodule",
+  "pk": 5,
+  "fields": {
+    "course": 1,
+    "title": "Safety and Environmental Management",
+    "description": "Comprehensive safety training, risk assessment, environmental impact mitigation, and regulatory compliance in mining and quarrying.",
+    "order": 5
+  }
+},
+{
+  "model": "courses.coursemodule",
+  "pk": 6,
+  "fields": {
+    "course": 1,
+    "title": "Project Management and Planning",
+    "description": "Planning and managing mining projects, resource allocation, scheduling, cost control, and team leadership in mining operations.",
+    "order": 6
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$O7RoVlrEsUW9jTyXYFvwVM$jAPeEzeXZ6nzlNVsF6fHjLG8BLYojrl1P4cq95uEltc=",
+    "last_login": "2025-12-21T23:52:27.106Z",
+    "is_superuser": true,
+    "username": "prof",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-12-21T15:50:19.694Z",
+    "email": "prof@gmail.com",
+    "phone": null,
+    "date_of_birth": null,
+    "profile_picture": "",
+    "address": null,
+    "is_student": false,
+    "student_id": null,
+    "terms_accepted": false,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$evsmH2CGxQ5coFObgrlVXk$GHPEfC4s22r8xggN0p0qQVEj0nO+cCoJGMklQ916bGA=",
+    "last_login": "2025-12-22T09:13:18.192Z",
+    "is_superuser": false,
+    "username": "akogo4520",
+    "first_name": "kennedy",
+    "last_name": "Akogo",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-12-22T09:13:15.984Z",
+    "email": "akogokennedy@gmail.com",
+    "phone": "0557782728",
+    "date_of_birth": null,
+    "profile_picture": "",
+    "address": null,
+    "is_student": true,
+    "student_id": "AFIMPP00002",
+    "terms_accepted": true,
+    "groups": [],
+    "user_permissions": []
+  }
+}
+]
