@@ -3,6 +3,8 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils import timezone
+from django.utils.http import url_has_allowed_host_and_scheme
+from django.views.decorators.http import require_POST
 from .forms import CustomUserCreationForm, UserUpdateForm
 from .models import RegistrationCode
 
@@ -64,8 +66,10 @@ def user_login(request):
         if user is not None:
             login(request, user)
             messages.success(request, f'Welcome back, {user.username}!')
-            next_url = request.GET.get('next', 'home')
-            return redirect(next_url)
+            next_url = request.POST.get('next', request.GET.get('next', ''))
+            if next_url and url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}, require_https=request.is_secure()):
+                return redirect(next_url)
+            return redirect('home')
         else:
             messages.error(request, 'Invalid username or password.')
     
@@ -73,6 +77,7 @@ def user_login(request):
 
 
 @login_required
+@require_POST
 def user_logout(request):
     """User logout view"""
     logout(request)

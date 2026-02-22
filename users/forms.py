@@ -1,6 +1,10 @@
+import os
+
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from .models import User, RegistrationCode
+
+ALLOWED_IMAGE_EXTENSIONS = {'.jpg', '.jpeg', '.png'}
 
 class CustomUserCreationForm(UserCreationForm):
     registration_code = forms.CharField(
@@ -73,5 +77,17 @@ class UserUpdateForm(forms.ModelForm):
             'phone': forms.TextInput(attrs={'class': 'form-control'}),
             'date_of_birth': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'address': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
-            'profile_picture': forms.FileInput(attrs={'class': 'form-control'}),
+            'profile_picture': forms.FileInput(attrs={'class': 'form-control', 'accept': 'image/jpeg,image/png'}),
         }
+
+    def clean_profile_picture(self):
+        file = self.cleaned_data.get('profile_picture')
+        if file and hasattr(file, 'size'):
+            if file.size > 5 * 1024 * 1024:  # 5MB
+                raise forms.ValidationError("Profile picture must be less than 5MB")
+            ext = os.path.splitext(file.name)[1].lower()
+            if ext not in ALLOWED_IMAGE_EXTENSIONS:
+                raise forms.ValidationError(
+                    f"Unsupported file type '{ext}'. Allowed: {', '.join(sorted(ALLOWED_IMAGE_EXTENSIONS))}"
+                )
+        return file

@@ -49,10 +49,7 @@
                             
                             <div class="mb-4">
                                 <label class="form-label fw-bold">Amount (GHS)</label>
-                                {{ form.amount }}
-                                {% if enrollment.course.price and enrollment.course.price > 0 %}
-                                <small class="form-text text-muted">Full course fee: GHS {{ enrollment.course.price }}</small>
-                                {% endif %}
+                                <input type="text" class="form-control" value="GHS {{ enrollment.course.price }}" disabled>
                             </div>
                             
                             <!-- Mobile Money Fields -->
@@ -72,26 +69,12 @@
                                 </div>
                             </div>
                             
-                            <!-- Card Fields -->
+                            <!-- Card Payments -->
                             <div id="cardFields" style="display: none;">
-                                <div class="card bg-light mb-3">
-                                    <div class="card-body">
-                                        <h6 class="card-title">Card Details</h6>
-                                        <div class="mb-3">
-                                            <label class="form-label">Card Number</label>
-                                            {{ form.card_number }}
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6 mb-3">
-                                                <label class="form-label">Expiry Date</label>
-                                                {{ form.card_expiry }}
-                                            </div>
-                                            <div class="col-md-6 mb-3">
-                                                <label class="form-label">CVV</label>
-                                                {{ form.card_cvv }}
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="alert alert-info">
+                                    <h6 class="alert-heading">Card Payment</h6>
+                                    <p>Card payments are processed through a secure payment gateway. You will be redirected to complete payment after submitting this form.</p>
+                                    <small>Note: Card payment integration is coming soon. Please use Mobile Money or Bank Transfer for now.</small>
                                 </div>
                             </div>
                             
@@ -131,14 +114,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const mobileMoneyFields = document.getElementById('mobileMoneyFields');
     const cardFields = document.getElementById('cardFields');
     const bankTransferFields = document.getElementById('bankTransferFields');
-    
+
     function togglePaymentFields() {
         const selectedMethod = paymentMethodSelect.value;
-        
+
         mobileMoneyFields.style.display = 'none';
         cardFields.style.display = 'none';
         bankTransferFields.style.display = 'none';
-        
+
         if (selectedMethod === 'mobile_money') {
             mobileMoneyFields.style.display = 'block';
         } else if (selectedMethod === 'card') {

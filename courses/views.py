@@ -7,6 +7,9 @@ from django.conf import settings
 from .models import Course, Enrollment, Payment, CourseRegistration
 from .forms import EnrollmentForm, PaymentForm, CourseRegistrationForm
 import uuid
+import logging
+
+logger = logging.getLogger(__name__)
 
 def course_list(request):
     """List all active courses"""
@@ -105,23 +108,19 @@ def payment(request, enrollment_id):
         if form.is_valid():
             payment = form.save(commit=False)
             payment.enrollment = enrollment
+            payment.amount = enrollment.course.price  # Server-side amount, not client-submitted
             payment.transaction_id = str(uuid.uuid4())
-            payment.status = 'completed'  # In production, this would be pending until verified
+            payment.status = 'pending'  # Must be verified by admin or payment gateway callback
             payment.save()
-            
-            # Update enrollment payment status
-            if payment.amount >= enrollment.course.price:
-                enrollment.payment_status = 'completed'
-                enrollment.status = 'approved'
-            else:
-                enrollment.payment_status = 'partial'
-            
+
+            # Payment stays pending until verified - do not auto-approve
+            enrollment.payment_status = 'pending'
             enrollment.save()
-            
-            messages.success(request, 'Payment successful! You are now enrolled in the course.')
+
+            messages.success(request, 'Payment submitted! Your payment is pending verification. You will be notified once it is confirmed.')
             return redirect('dashboard')
     else:
-        form = PaymentForm(initial={'amount': enrollment.course.price})
+        form = PaymentForm()
     
     context = {
         'enrollment': enrollment,
@@ -164,7 +163,7 @@ def course_registration(request, enrollment_id):
                     fail_silently=True
                 )
             except Exception as e:
-                print(f"Email sending failed: {e}")
+                logger.error("Email sending failed: %s", e)
             
             messages.success(request, 'Registration form submitted successfully! You will be notified once your application is reviewed.')
             return redirect('dashboard')

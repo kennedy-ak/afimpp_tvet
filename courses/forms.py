@@ -1,5 +1,18 @@
+import os
+
 from django import forms
 from .models import Enrollment, Payment, CourseRegistration
+
+ALLOWED_IMAGE_EXTENSIONS = {'.jpg', '.jpeg', '.png'}
+ALLOWED_DOCUMENT_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.pdf'}
+
+
+def _validate_file_extension(file, allowed_extensions):
+    ext = os.path.splitext(file.name)[1].lower()
+    if ext not in allowed_extensions:
+        raise forms.ValidationError(
+            f"Unsupported file type '{ext}'. Allowed: {', '.join(sorted(allowed_extensions))}"
+        )
 
 class EnrollmentForm(forms.ModelForm):
     class Meta:
@@ -13,16 +26,11 @@ class EnrollmentForm(forms.ModelForm):
 class PaymentForm(forms.ModelForm):
     class Meta:
         model = Payment
-        fields = ['amount', 'payment_method']
+        fields = ['payment_method']
         widgets = {
-            'amount': forms.NumberInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Amount',
-                'step': '0.01'
-            }),
             'payment_method': forms.Select(attrs={'class': 'form-control'}),
         }
-    
+
     # Mobile Money specific fields
     mobile_number = forms.CharField(
         max_length=15,
@@ -33,7 +41,7 @@ class PaymentForm(forms.ModelForm):
             'id': 'mobile_number'
         })
     )
-    
+
     mobile_network = forms.ChoiceField(
         choices=[
             ('', 'Select Network'),
@@ -45,37 +53,6 @@ class PaymentForm(forms.ModelForm):
         widget=forms.Select(attrs={
             'class': 'form-control',
             'id': 'mobile_network'
-        })
-    )
-    
-    # Card specific fields
-    card_number = forms.CharField(
-        max_length=16,
-        required=False,
-        widget=forms.TextInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Card Number',
-            'id': 'card_number'
-        })
-    )
-    
-    card_expiry = forms.CharField(
-        max_length=5,
-        required=False,
-        widget=forms.TextInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'MM/YY',
-            'id': 'card_expiry'
-        })
-    )
-    
-    card_cvv = forms.CharField(
-        max_length=4,
-        required=False,
-        widget=forms.TextInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'CVV',
-            'id': 'card_cvv'
         })
     )
 
@@ -138,20 +115,21 @@ class CourseRegistrationForm(forms.ModelForm):
         if file:
             if file.size > 5 * 1024 * 1024:  # 5MB
                 raise forms.ValidationError("Passport photo must be less than 5MB")
-            if not file.content_type in ['image/jpeg', 'image/png']:
-                raise forms.ValidationError("Passport photo must be JPEG or PNG format")
+            _validate_file_extension(file, ALLOWED_IMAGE_EXTENSIONS)
         return file
-    
+
     def clean_birth_certificate_or_id(self):
         file = self.cleaned_data.get('birth_certificate_or_id')
         if file:
             if file.size > 10 * 1024 * 1024:  # 10MB
                 raise forms.ValidationError("Birth certificate/ID must be less than 10MB")
+            _validate_file_extension(file, ALLOWED_DOCUMENT_EXTENSIONS)
         return file
-    
+
     def clean_education_certificates(self):
         file = self.cleaned_data.get('education_certificates')
         if file:
             if file.size > 10 * 1024 * 1024:  # 10MB
                 raise forms.ValidationError("Education certificate must be less than 10MB")
+            _validate_file_extension(file, ALLOWED_DOCUMENT_EXTENSIONS)
         return file

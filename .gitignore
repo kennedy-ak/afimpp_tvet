@@ -20,6 +20,19 @@ wheels/
 *.sqlite3
 *.db
 
+# Database exports and backups
+data.json
+data_export*.json
+data_backup*.json
+postgres_backup_*.json
+
+# SSL/TLS certificates
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
 # Log files
 *.log
 django.log
@@ -69,3 +82,6 @@ README.md
 DEPLOYMENT.md
 MIGRATION_SUMMARY.md
 plans/*.md
+Occupational standards for mines systems and engineering CERT 2.docx.pdf
+Occupational Standards for mines systems engineering HND.docx.pdf
+Professional_Diploma_Mines_Systems_Engineering_Info2.doc.pdf
