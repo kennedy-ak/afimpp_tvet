@@ -57,6 +57,7 @@ INSTALLED_APPS = [
 
 
 MIDDLEWARE = [
+    'observo_handler.middleware.RequestIDMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -230,14 +231,23 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'simple',
         },
+        'observo': {
+            'level': 'INFO',
+            'class': 'observo_handler.ObservoHandler',
+            'project_id': config('OBSERVO_PROJECT_ID', default=''),
+            'api_key': config('OBSERVO_API_KEY', default=''),
+            'observo_url': 'https://observo-log.vendlyghana.space/api/v1/ingest/',
+            'batch_size': 10,
+            'flush_interval': 5,
+        },
     },
     'root': {
-        'handlers': ['console', 'file'],
+        'handlers': ['console', 'file', 'observo'],
         'level': 'INFO',
     },
     'loggers': {
         'django': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console', 'file', 'observo'],
             'level': 'INFO',
             'propagate': False,
         },
