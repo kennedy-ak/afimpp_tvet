@@ -27,6 +27,7 @@ urlpatterns = [
     path('courses/', include('courses.urls')),
     path('users/', include('users.urls')),
     path('contact/', include('contact.urls')),
+    path('chatbot/', include('chatbot.urls')),
     path('favicon.ico', RedirectView.as_view(url=settings.STATIC_URL + 'favicon.ico', permanent=True)),
 ]
 

@@ -47,12 +47,13 @@ INSTALLED_APPS = [
       # Third party apps
     'crispy_forms',
     'crispy_bootstrap5',
-    
+
     # Local apps
     'core',
     'courses',
     'users',
     'contact',
+    'chatbot',
 ]
 
 
@@ -171,6 +172,9 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 LOGIN_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
 LOGOUT_REDIRECT_URL = 'home'
+
+# OpenAI Configuration (for Chatbot)
+OPENAI_API_KEY = config('OPENAI_API_KEY', default='')
 
 # Email Configuration (for contact form and notifications)
 EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
