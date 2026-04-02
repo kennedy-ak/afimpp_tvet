@@ -17,7 +17,7 @@ class Course(models.Model):
     description = models.TextField()
     level = models.CharField(max_length=1, choices=LEVEL_CHOICES)
     duration_months = models.IntegerField(help_text="Duration in months")
-    image = models.ImageField(upload_to='courses/', blank=True, null=True)
+    image = models.ImageField(upload_to='courses/', blank=True, null=True, max_length=500)
     
     # Course details
     overview = models.TextField(blank=True, null=True)

@@ -2,7 +2,7 @@ from django.db import models
 
 class GalleryImage(models.Model):
     title = models.CharField(max_length=200)
-    image = models.ImageField(upload_to='gallery/')
+    image = models.ImageField(upload_to='gallery/', max_length=500)
     description = models.TextField(blank=True, null=True)
     order = models.IntegerField(default=0)
     is_active = models.BooleanField(default=True)
@@ -39,7 +39,7 @@ class SiteSettings(models.Model):
     about_title = models.CharField(max_length=200, default="Know more about AfIMMP-TVET")
     about_description = models.TextField()
     about_paragraph_2 = models.TextField(blank=True, null=True)
-    about_image = models.ImageField(upload_to='about/', blank=True, null=True)
+    about_image = models.ImageField(upload_to='about/', blank=True, null=True, max_length=500)
 
     # Mission, Vision, Core Values
     mission_statement = models.TextField(default="Our Mission is to promote excellence in the mining industry through professional development, knowledge sharing, and ethical practices, while contributing to sustainable development and socioeconomic growth in Ghana,")
