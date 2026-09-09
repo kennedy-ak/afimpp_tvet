@@ -12,6 +12,7 @@ dependencies = [
     { name = "django" },
     { name = "django-cloudinary-storage" },
     { name = "django-crispy-forms" },
+    { name = "gunicorn" },
     { name = "observo-handler" },
     { name = "openai" },
     { name = "pillow" },
@@ -27,6 +28,7 @@ requires-dist = [
     { name = "django", specifier = ">=6.0" },
     { name = "django-cloudinary-storage", specifier = ">=0.3.0" },
     { name = "django-crispy-forms", specifier = ">=2.5" },
+    { name = "gunicorn", specifier = ">=26.2.0" },
     { name = "observo-handler", specifier = ">=1.0.1" },
     { name = "openai", specifier = ">=1.0.0" },
     { name = "pillow", specifier = ">=12.0.0" },
@@ -242,6 +244,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/79/a1/6a638d13717e4d4f8df169dade0fa51bdc65d9825df39d98ce709a776b49/django_crispy_forms-2.5.tar.gz", hash = "sha256:066e72a8f152a1334f1c811cc37740868efe3265e5a218f79079ef89f848c3d8", size = 1097999, upload-time = "2025-11-06T20:44:01.921Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/2c/58/ac3a11950baaf75c1f3242e3af9dfe45201f6ee10c113dd37a9c000876d2/django_crispy_forms-2.5-py3-none-any.whl", hash = "sha256:adc99d5901baca09479c53bf536b3909e80a9f2bb299438a223de4c106ebf1f9", size = 31464, upload-time = "2025-11-06T20:44:00.795Z" },
+]
+
+[[package]]
+name = "gunicorn"
+version = "26.2.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/d9/8a/e4ef6ee11701b6cd64702848415ffb69eeff85cb388a3c6c7fe86f22f3f8/gunicorn-26.2.0.tar.gz", hash = "sha256:62b864895d9ebff0b2f9867ba04fe811c93121596540830c9c916d0769668447", size = 787921, upload-time = "2026-08-24T15:05:59.3Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/fe/85/7522a52e5e2f42faf1a129113ab63e548c42e103e9af395b7bfe65e403e2/gunicorn-26.2.0-py3-none-any.whl", hash = "sha256:bd249d0b3f7972f7432f0a6b6ff3b3ee2d129f70cd1ff6c09a9dd9e29a2b88e3", size = 228389, upload-time = "2026-08-24T15:05:57.67Z" },
 ]
 
 [[package]]
