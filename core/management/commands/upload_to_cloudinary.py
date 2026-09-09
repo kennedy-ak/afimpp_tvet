@@ -52,7 +52,7 @@ class Command(BaseCommand):
                     result = self.upload_file(local_path, f'courses/{Path(local_path).name}', dry_run)
                     if result:
                         if not dry_run:
-                            course.image = result['url']
+                            course.image = result['storage_name']
                             course.save()
                         total_uploaded += 1
                     else:
@@ -70,7 +70,7 @@ class Command(BaseCommand):
                     result = self.upload_file(local_path, f'courses/{Path(local_path).name}', dry_run)
                     if result:
                         if not dry_run:
-                            course.image = result['url']
+                            course.image = result['storage_name']
                             course.save()
                         total_uploaded += 1
                         self.stdout.write(self.style.SUCCESS(f'  Assigned {Path(local_path).name} to course: {course.title}'))
@@ -89,7 +89,7 @@ class Command(BaseCommand):
                     result = self.upload_file(local_path, f'gallery/{Path(local_path).name}', dry_run)
                     if result:
                         if not dry_run:
-                            item.image = result['url']
+                            item.image = result['storage_name']
                             item.save()
                         total_uploaded += 1
                     else:
@@ -111,7 +111,7 @@ class Command(BaseCommand):
                     result = self.upload_file(local_path, f'profile_pictures/{Path(local_path).name}', dry_run)
                     if result:
                         if not dry_run:
-                            user.profile_picture = result['url']
+                            user.profile_picture = result['storage_name']
                             user.save()
                         total_uploaded += 1
                     else:
@@ -131,7 +131,7 @@ class Command(BaseCommand):
                     result = self.upload_file(local_path, f'about/{Path(local_path).name}', dry_run)
                     if result:
                         if not dry_run:
-                            site_setting.about_image = result['url']
+                            site_setting.about_image = result['storage_name']
                             site_setting.save()
                         total_uploaded += 1
                     else:
@@ -216,7 +216,7 @@ class Command(BaseCommand):
         filename = os.path.basename(local_path)
         if dry_run:
             self.stdout.write(f'  Would upload: {filename} -> {public_id}')
-            return {'url': f'https://cloudinary.com/{public_id}'}
+            return {'url': f'https://cloudinary.com/{public_id}', 'storage_name': f'afimpp/{public_id}'}
 
         try:
             # Upload to Cloudinary with folder structure
@@ -228,6 +228,9 @@ class Command(BaseCommand):
                 overwrite=True,
             )
             url = result.get('url', result.get('secure_url'))
+            # Store the public ID (plus format) on the model, never the full URL:
+            # the storage backend prepends its own base URL when building links.
+            result['storage_name'] = f"{result['public_id']}.{result['format']}"
             self.stdout.write(self.style.SUCCESS(f'  Uploaded: {filename} -> {url}'))
             return result
         except Exception as e:
