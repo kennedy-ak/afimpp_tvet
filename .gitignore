@@ -85,3 +85,7 @@ plans/*.md
 Occupational standards for mines systems and engineering CERT 2.docx.pdf
 Occupational Standards for mines systems engineering HND.docx.pdf
 Professional_Diploma_Mines_Systems_Engineering_Info2.doc.pdf
+
+# Gunicorn runtime files
+gunicorn.pid
+nohup.out
