@@ -87,5 +87,6 @@ Occupational Standards for mines systems engineering HND.docx.pdf
 Professional_Diploma_Mines_Systems_Engineering_Info2.doc.pdf
 
 # Gunicorn runtime files
+logs/
 gunicorn.pid
 nohup.out
