@@ -171,9 +171,26 @@ cloudinary.config(
     api_secret=CLOUDINARY_API_SECRET,
 )
 
-# Use Cloudinary for media files (both dev and production when configured)
+# Use Cloudinary for media files (both dev and production when configured).
+# Django 5.1+ removed DEFAULT_FILE_STORAGE; the STORAGES dict is the only way
+# to select the media backend. django-cloudinary-storage also reads its
+# credentials from the CLOUDINARY_STORAGE dict (python-decouple does not export
+# .env values to os.environ, so the CLOUDINARY_* env fallback never fires).
 if CLOUDINARY_CLOUD_NAME:
-    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+    CLOUDINARY_STORAGE = {
+        'CLOUD_NAME': CLOUDINARY_CLOUD_NAME,
+        'API_KEY': CLOUDINARY_API_KEY,
+        'API_SECRET': CLOUDINARY_API_SECRET,
+        'PREFIX': 'afimpp',
+    }
+    STORAGES = {
+        'default': {
+            'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage',
+        },
+        'staticfiles': {
+            'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage',
+        },
+    }
     MEDIA_URL = 'https://res.cloudinary.com/' + CLOUDINARY_CLOUD_NAME + '/'
 
 # Default primary key field type
