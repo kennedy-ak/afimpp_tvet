@@ -54,14 +54,17 @@ is_running() {
 }
 
 # PIDs of whatever is listening on $PORT (any of ss / lsof / fuser that exists).
+# Always exits 0: an empty result (port free) is not an error, and under
+# `set -e -o pipefail` a failing grep here would abort the whole script.
 port_pids() {
     if command -v ss >/dev/null; then
-        ss -ltnpH "sport = :$PORT" 2>/dev/null | grep -o 'pid=[0-9]*' | cut -d= -f2 | sort -u
+        ss -ltnpH "sport = :$PORT" 2>/dev/null | grep -o 'pid=[0-9]*' | cut -d= -f2 | sort -u || true
     elif command -v lsof >/dev/null; then
-        lsof -ti "tcp:$PORT" -sTCP:LISTEN 2>/dev/null | sort -u
+        lsof -ti "tcp:$PORT" -sTCP:LISTEN 2>/dev/null | sort -u || true
     elif command -v fuser >/dev/null; then
-        fuser "$PORT/tcp" 2>/dev/null | tr ' ' '\n' | grep -E '^[0-9]+$' | sort -u
+        fuser "$PORT/tcp" 2>/dev/null | tr ' ' '\n' | grep -E '^[0-9]+$' | sort -u || true
     fi
+    return 0
 }
 
 # PIDs of gunicorn master processes serving this app (pid file or not).
