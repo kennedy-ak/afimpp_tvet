@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.db.models import Q
+from afimpp_config.analytics import capture
 from courses.models import Course
 from .models import GalleryImage, SiteSettings, Newsletter
 from .forms import NewsletterForm
@@ -23,6 +24,7 @@ def home(request):
             email = newsletter_form.cleaned_data['email']
             if not Newsletter.objects.filter(email=email).exists():
                 newsletter_form.save()
+                capture(request, 'newsletter_subscribed')
                 messages.success(request, 'Thank you for subscribing to our newsletter!')
             else:
                 messages.info(request, 'You are already subscribed to our newsletter.')

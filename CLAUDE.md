@@ -66,6 +66,8 @@ Always use `get_user_model()` or import User from the users app when referencing
 - Static files in `/static/`, media uploads in `/media/`
 - Admin panel accessed at `/mgmt-portal/` (not `/admin/`)
 - Log shipping via Observo middleware (`observo_handler.middleware.RequestIDMiddleware`)
+- PostHog analytics: client snippet in `templates/base.html` + server-side events via `afimpp_config.analytics.capture(request, event, props)`. Configure with `POSTHOG_KEY`, `POSTHOG_HOST`, `POSTHOG_SESSION_REPLAY`, `POSTHOG_EXCLUDE_STAFF` in `.env`. Distinct ID is `str(user.pk)` (matches JS `identify`); staff/superusers are excluded when `POSTHOG_EXCLUDE_STAFF=True`.
+- Sentry: error tracking, tracing and performance monitoring. Server SDK inits in `settings.py` (covers manage.py, runserver and gunicorn); browser SDK renders in `base.html` via the `sentry` context processor. Fully disabled until `SENTRY_DSN` is set in `.env`. Toggles: `SENTRY_TRACES_SAMPLE_RATE` (default 1.0), `SENTRY_PROFILES_SAMPLE_RATE` (default 0), `SENTRY_REPLAYS_SAMPLE_RATE` / `SENTRY_REPLAYS_ON_ERROR_SAMPLE_RATE` (default 0), `SENTRY_SEND_PII` (default True), `SENTRY_ENVIRONMENT`, `SENTRY_RELEASE` (defaults to git short SHA).
 
 ### Dependencies
 

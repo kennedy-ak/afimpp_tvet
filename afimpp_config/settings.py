@@ -35,6 +35,54 @@ else:
     ALLOWED_HOSTS = []
 
 
+# Sentry - error tracking, tracing and performance monitoring.
+# https://docs.sentry.io/platforms/python/guides/django/
+# Server SDK is a no-op until SENTRY_DSN is set. Initialized here (not in
+# wsgi.py) so every entry point is covered: manage.py, runserver, gunicorn,
+# shell. SENTRY_RELEASE defaults to the git short SHA when a DSN is present.
+SENTRY_DSN = config('SENTRY_DSN', default='')
+# An empty SENTRY_ENVIRONMENT= in .env must fall back to the DEBUG-based default.
+_default_sentry_env = 'development' if DEBUG else 'production'
+SENTRY_ENVIRONMENT = config('SENTRY_ENVIRONMENT', default=_default_sentry_env) or _default_sentry_env
+SENTRY_TRACES_SAMPLE_RATE = config('SENTRY_TRACES_SAMPLE_RATE', default=1.0, cast=float)
+SENTRY_PROFILES_SAMPLE_RATE = config('SENTRY_PROFILES_SAMPLE_RATE', default=0.0, cast=float)
+# Attach the affected user's id/username/email to error events.
+SENTRY_SEND_PII = config('SENTRY_SEND_PII', default=True, cast=bool)
+SENTRY_REPLAYS_SAMPLE_RATE = config('SENTRY_REPLAYS_SAMPLE_RATE', default=0.0, cast=float)
+SENTRY_REPLAYS_ON_ERROR_SAMPLE_RATE = config('SENTRY_REPLAYS_ON_ERROR_SAMPLE_RATE', default=0.0, cast=float)
+SENTRY_RELEASE = ''
+
+if SENTRY_DSN:
+    def _sentry_release():
+        # Explicit SENTRY_RELEASE wins; otherwise use the git short SHA.
+        override = config('SENTRY_RELEASE', default='')
+        if override:
+            return override
+        try:
+            import subprocess
+            return subprocess.check_output(
+                ['git', 'rev-parse', '--short', 'HEAD'],
+                cwd=str(BASE_DIR), timeout=5, text=True,
+            ).strip() or None
+        except Exception:
+            return None
+
+    SENTRY_RELEASE = _sentry_release()
+
+    import sentry_sdk
+    from sentry_sdk.integrations.django import DjangoIntegration
+
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        environment=SENTRY_ENVIRONMENT,
+        release=SENTRY_RELEASE or None,
+        traces_sample_rate=SENTRY_TRACES_SAMPLE_RATE,
+        profiles_sample_rate=SENTRY_PROFILES_SAMPLE_RATE,
+        send_default_pii=SENTRY_SEND_PII,
+        integrations=[DjangoIntegration()],
+    )
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -82,6 +130,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'afimpp_config.context_processors.posthog',
+                'afimpp_config.context_processors.sentry',
             ],
         },
     },
@@ -212,6 +262,14 @@ LOGOUT_REDIRECT_URL = 'home'
 
 # OpenAI Configuration (for Chatbot)
 OPENAI_API_KEY = config('OPENAI_API_KEY', default='')
+
+# PostHog Analytics
+# Client-side snippet in base.html + server-side events via afimpp_config.analytics.
+# Get the project API key from PostHog -> Settings -> Project -> Project API Key.
+POSTHOG_PUBLIC_KEY = config('POSTHOG_KEY', default='')
+POSTHOG_HOST = config('POSTHOG_HOST', default='https://us.i.posthog.com')
+POSTHOG_SESSION_REPLAY = config('POSTHOG_SESSION_REPLAY', default=False, cast=bool)
+POSTHOG_EXCLUDE_STAFF = config('POSTHOG_EXCLUDE_STAFF', default=False, cast=bool)
 
 # Email Configuration (for contact form and notifications)
 EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')

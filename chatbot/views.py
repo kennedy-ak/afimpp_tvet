@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.utils import timezone
+from afimpp_config.analytics import capture
 from .models import ChatConversation, ChatMessage
 from .services import get_chatbot_response, get_conversation_history
 from django.contrib.auth import get_user_model
@@ -36,6 +37,12 @@ def chat_api(request):
 
         if not user_message:
             return JsonResponse({'error': 'Message is required'}, status=400)
+
+        # Track engagement only - never send chat content to analytics.
+        capture(request, 'chatbot_message_sent', {
+            'message_length': len(user_message),
+            'is_new_conversation': not session_id,
+        })
 
         session_id = data.get('session_id')
 
