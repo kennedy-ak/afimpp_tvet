@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.db.models import Q
 from django.core.mail import send_mail
 from django.conf import settings
+from afimpp_config.analytics import capture
 from .models import Course, Enrollment, Payment, CourseRegistration
 from .forms import EnrollmentForm, PaymentForm, CourseRegistrationForm
 import uuid
@@ -14,7 +15,7 @@ logger = logging.getLogger(__name__)
 def course_list(request):
     """List all active courses"""
     courses = Course.objects.filter(is_active=True)
-    
+
     # Search functionality
     search_query = request.GET.get('search', '')
     if search_query:
@@ -23,6 +24,10 @@ def course_list(request):
             Q(description__icontains=search_query) |
             Q(short_title__icontains=search_query)
         )
+        capture(request, 'course_searched', {
+            'search_term': search_query,
+            'result_count': courses.count(),
+        })
     
     # Filter by level
     level = request.GET.get('level', '')
@@ -59,6 +64,12 @@ def course_detail(request, slug):
         except Enrollment.DoesNotExist:
             pass
     
+    capture(request, 'course_viewed', {
+        'course': course.title,
+        'course_slug': course.slug,
+        'level': course.level,
+    })
+
     context = {
         'course': course,
         'is_enrolled': is_enrolled,
@@ -85,6 +96,12 @@ def enroll_course(request, slug):
             status='pending',
             payment_status='pending'
         )
+        capture(request, 'enrollment_created', {
+            'course': course.title,
+            'course_slug': course.slug,
+            'level': course.level,
+            'enrollment_id': enrollment.pk,
+        })
         messages.success(request, f'You have successfully enrolled in {course.title}. Please proceed to payment.')
         return redirect('payment', enrollment_id=enrollment.pk)
     
@@ -117,6 +134,13 @@ def payment(request, enrollment_id):
             enrollment.payment_status = 'pending'
             enrollment.save()
 
+            capture(request, 'payment_submitted', {
+                'course': enrollment.course.title,
+                'course_slug': enrollment.course.slug,
+                'amount': float(payment.amount),
+                'enrollment_id': enrollment.pk,
+            })
+
             messages.success(request, 'Payment submitted! Your payment is pending verification. You will be notified once it is confirmed.')
             return redirect('dashboard')
     else:
@@ -145,7 +169,13 @@ def course_registration(request, enrollment_id):
             registration = form.save(commit=False)
             registration.enrollment = enrollment
             registration.save()
-            
+
+            capture(request, 'course_registration_submitted', {
+                'course': enrollment.course.title,
+                'course_slug': enrollment.course.slug,
+                'enrollment_id': enrollment.pk,
+            })
+
             # Send email notification to admin
             try:
                 send_mail(

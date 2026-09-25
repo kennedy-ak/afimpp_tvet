@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.utils import timezone
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_POST
+from afimpp_config.analytics import capture, identify_user
 from .forms import CustomUserCreationForm, UserUpdateForm
 from .models import RegistrationCode
 
@@ -41,6 +42,10 @@ def register(request):
 
             # Automatically log the user in
             login(request, user)
+            identify_user(user)
+            capture(request, 'user_signed_up', {
+                'student_id': user.student_id,
+            })
             messages.success(request, f'Welcome {user.username}! Your account has been created successfully.')
             return redirect('dashboard')  # Redirect to dashboard instead of home
     else:
@@ -65,6 +70,8 @@ def user_login(request):
         
         if user is not None:
             login(request, user)
+            identify_user(user)
+            capture(request, 'user_logged_in')
             messages.success(request, f'Welcome back, {user.username}!')
             next_url = request.POST.get('next', request.GET.get('next', ''))
             if next_url and url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}, require_https=request.is_secure()):
@@ -80,7 +87,10 @@ def user_login(request):
 @require_POST
 def user_logout(request):
     """User logout view"""
+    capture(request, 'user_logged_out')
     logout(request)
+    # Ask the client-side snippet to drop the old identity on the next page.
+    request.session['_posthog_reset'] = True
     messages.success(request, 'You have been logged out successfully.')
     return redirect('home')
 

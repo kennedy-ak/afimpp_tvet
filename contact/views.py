@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from afimpp_config.analytics import capture
 from .forms import ContactForm
 
 def contact(request):
@@ -8,6 +9,7 @@ def contact(request):
         form = ContactForm(request.POST)
         if form.is_valid():
             form.save()
+            capture(request, 'contact_form_submitted')
             messages.success(request, 'Thank you for contacting us! We will get back to you soon.')
             return redirect('contact')
     else:
